@@ -14,7 +14,10 @@ WORKDIR /app
 COPY . /app
 
 # Compilamos el código
-RUN javac Main.java WifiScanner.java Notifier.java MacVendorLookup.java
+RUN javac *.java
+
+# Exponemos el puerto del servidor web
+EXPOSE 8080
 
 # Comando para ejecutar la aplicación
 CMD ["java", "Main"]

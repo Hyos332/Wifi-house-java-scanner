@@ -21,10 +21,24 @@ Este sistema escanea tu red local cada 5 segundos y:
 ✅ **Envía alertas a Discord** con IP, MAC, fabricante y hora exacta de conexión  
 ✅ **Detecta desconexiones** y te avisa si un dispositivo vuelve a conectarse (ideal para saber cuándo alguien llega a casa)  
 ✅ **Corre 24/7 en Docker** sin necesidad de tener una terminal abierta  
+✅ **¡NUEVO! Panel Web Gráfico**: Visualiza todos los dispositivos conectados en una interfaz moderna.
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## �️ Panel Web (Dashboard)
+
+El proyecto ahora incluye una interfaz web para ver el estado de tu red de forma visual.
+
+- **URL**: `http://localhost:8080`
+- **Características**:
+  - Lista de dispositivos en tiempo real.
+  - Indicadores de estado (Online/Offline).
+  - Identificación visual de fabricantes.
+  - Modo oscuro por defecto.
+
+---
+
+## �🛠️ Tecnologías Utilizadas
 
 | Tecnología | Propósito |
 |------------|-----------|
@@ -35,6 +49,8 @@ Este sistema escanea tu red local cada 5 segundos y:
 | **Discord Webhooks API** | Sistema de notificaciones en tiempo real |
 | **macvendors.com API** | Identificación de fabricantes por MAC |
 | **Linux net-tools** | Comandos `arp` y `ping` para escaneo de red |
+| **HTML/CSS/JS** | Interfaz gráfica web (Dashboard) |
+| **Java HttpServer** | Servidor web ligero integrado |
 
 ---
 
@@ -42,7 +58,7 @@ Este sistema escanea tu red local cada 5 segundos y:
 
 ### Arquitectura del Sistema
 
-El programa está dividido en **4 componentes principales**:
+El programa está dividido en **5 componentes principales**:
 
 #### 1. **WifiScanner.java** - El Explorador 🔍
 - Realiza un **Ping Sweep** activo: envía paquetes ICMP a todas las IPs de la subred (192.168.1.1 - 192.168.1.254).
@@ -55,41 +71,20 @@ El programa está dividido en **4 componentes principales**:
 - Usa la dirección MAC (los primeros 6 caracteres, llamados OUI) para determinar si es Apple, Samsung, Intel, etc.
 - Tiene un timeout de 2 segundos para no bloquear el programa si la API falla.
 
-#### 3. **Notifier.java** - El Mensajero �
+#### 3. **Notifier.java** - El Mensajero 📨
 - Envía mensajes a Discord mediante **Webhooks**.
 - Lee la URL del Webhook desde una variable de entorno (`DISCORD_WEBHOOK_URL`) para mantener la seguridad.
 - Formatea el mensaje en JSON y lo envía mediante una petición HTTP POST.
 
-#### 4. **Main.java** - El Orquestador 🎼
+#### 4. **WebServer.java** - El Servidor Web �
+- Levanta un servidor HTTP ligero en el puerto 8080.
+- Sirve la interfaz gráfica (`index.html`) y una API JSON (`/api/devices`).
+- Permite consultar el estado de la red desde cualquier navegador.
+
+#### 5. **Main.java** - El Orquestador 🎼
 - **Bucle infinito** que escanea la red cada 5 segundos.
-- Compara el escaneo actual con el anterior para detectar:
-  - **Nuevas conexiones**: IPs que no estaban antes → Envía alerta.
-  - **Desconexiones**: IPs que desaparecieron → Las borra de la memoria para poder alertar si vuelven.
-- **Protección anti-spam**: Si detecta más de 5 dispositivos nuevos de golpe, asume que es un error de escaneo y no envía alertas.
-
-### Flujo de Ejecución
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  1. Ping Sweep (192.168.1.1 → 192.168.1.254)               │
-│     └─> Genera tráfico ARP en la red                       │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│  2. Leer tabla ARP del sistema                              │
-│     └─> Filtrar entradas con MAC válida                    │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│  3. Comparar con escaneo anterior                           │
-│     ├─> ¿IP nueva? → Consultar fabricante → Enviar alerta  │
-│     └─> ¿IP desaparecida? → Borrar de memoria              │
-└─────────────────────────────────────────────────────────────┘
-                            ↓
-┌─────────────────────────────────────────────────────────────┐
-│  4. Esperar 5 segundos y repetir                            │
-└─────────────────────────────────────────────────────────────┘
-```
+- Mantiene el estado de los dispositivos (`knownDevices`) para el servidor web.
+- Compara el escaneo actual con el anterior para detectar nuevas conexiones y desconexiones.
 
 ---
 
@@ -124,12 +119,15 @@ El programa está dividido en **4 componentes principales**:
    sudo docker-compose up -d --build
    ```
 
-4. **Ver los logs en tiempo real:**
+4. **Acceder al Dashboard:**
+   - Abre tu navegador y ve a: `http://localhost:8080` (o la IP de tu servidor si lo corres en remoto).
+
+5. **Ver los logs en tiempo real:**
    ```bash
    sudo docker-compose logs -f
    ```
 
-5. **Detener el vigilante:**
+6. **Detener el vigilante:**
    ```bash
    sudo docker-compose down
    ```
@@ -146,7 +144,7 @@ El programa está dividido en **4 componentes principales**:
 
 1. **Compilar:**
    ```bash
-   javac Main.java WifiScanner.java Notifier.java MacVendorLookup.java
+   javac *.java
    ```
 
 2. **Configurar Webhook:**
@@ -160,9 +158,12 @@ El programa está dividido en **4 componentes principales**:
    java Main
    ```
 
+4. **Acceder al Dashboard:**
+   - Abre `http://localhost:8080` en tu navegador.
+
 ---
 
-## � Ejemplo de Alerta
+## 🔔 Ejemplo de Alerta
 
 Cuando un dispositivo se conecta, recibirás esto en Discord:
 
