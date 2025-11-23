@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Wifi, Clock, Shield, Activity, Smartphone, Laptop, Monitor, HelpCircle, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { clsx, type ClassValue } from 'clsx';
+import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 function cn(...inputs) {
