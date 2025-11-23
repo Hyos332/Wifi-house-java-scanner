@@ -184,20 +184,3 @@ Cuando un dispositivo se conecta, recibirás esto en Discord:
 
 ---
 
-## 🤝 Contribuciones
-
-¡Las contribuciones son bienvenidas! Si tienes ideas para mejorar el escáner (base de datos, dashboard web, múltiples notificadores), abre un **Pull Request** o un **Issue**.
-
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Úsalo, modifícalo y compártelo libremente.
-
----
-
-## 🙏 Agradecimientos
-
-- **macvendors.com** por su API pública de identificación de fabricantes.
-- **Discord** por su sistema de Webhooks tan sencillo y potente.
-- **Eclipse Temurin** por proporcionar imágenes Docker de Java mantenidas y seguras.
