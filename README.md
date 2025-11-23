@@ -25,9 +25,12 @@ Un sistema de vigilancia de red ligero y eficiente escrito en Java. Escanea tu r
    cd java-network-sentinel
    ```
 
-2. **Configurar Webhook de Discord:**
-   - Abre `Notifier.java`.
-   - Reemplaza `TU_WEBHOOK_URL_AQUI` con la URL de tu Webhook de Discord.
+2. **Configurar Variables de Entorno:**
+   - Crea un archivo llamado `.env` en la raíz del proyecto.
+   - Añade tu Webhook de Discord:
+     ```env
+     DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/TU_WEBHOOK_AQUI
+     ```
 
 3. **Ajustar Subred (Opcional):**
    - Si tu red no es `192.168.1.x`, abre `WifiScanner.java` y cambia la variable `subnet`.

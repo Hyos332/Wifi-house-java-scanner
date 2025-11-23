@@ -7,6 +7,6 @@ services:
     # IMPORTANTE: Usamos 'host' para que el contenedor vea la red real de tu casa
     network_mode: "host"
     restart: unless-stopped
-    # Pasamos la URL como variable de entorno
+    # Pasamos la URL como variable de entorno (leída desde .env)
     environment:
-      - DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/1441933586080071700/ybwsrxysl9MnTSp2fG2GIwqLFe6midP_HPjuaPDUIF_ev_JQWY7up7aAPZAdIK1_b7Nh
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
