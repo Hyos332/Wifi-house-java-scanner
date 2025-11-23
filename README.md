@@ -98,7 +98,7 @@ El sistema se divide en dos microservicios:
    ```
 
 4. **Acceder al Dashboard:**
-   - Abre tu navegador y ve a: `http://localhost`
+   - Abre tu navegador y ve a: `http://localhost:3000`
 
 5. **Ver los logs:**
    ```bash
