@@ -7,6 +7,6 @@ services:
     # IMPORTANTE: Usamos 'host' para que el contenedor vea la red real de tu casa
     network_mode: "host"
     restart: unless-stopped
-    # Pasamos la URL como variable de entorno (leída desde .env)
-    environment:
-      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+    # Leemos las variables directamente del archivo .env
+    env_file:
+      - .env
