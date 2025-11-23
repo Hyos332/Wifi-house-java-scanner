@@ -1,10 +1,17 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
+
+   
+    private static final HashSet<String> IGNORED_MACS = new HashSet<>(Arrays.asList(
+        "30:bd:13:5f:98:20",  
+        "f4:8c:50:1c:f8:4f"   
+    ));
 
     public static void main(String[] args) {
         System.out.println("Iniciando Monitor de Red WiFi...");
@@ -43,6 +50,14 @@ public class Main {
                         for (String ip : currentIPs) {
                             if (!previousDevices.contains(ip)) {
                                 String mac = currentDevicesMap.get(ip);
+                                
+                               
+                                if (IGNORED_MACS.contains(mac)) {
+                                    System.out.println("🔇 Dispositivo conocido ignorado: " + ip + " [" + mac + "]");
+                                    previousDevices.add(ip); 
+                                    continue;
+                                }
+                                
                                 String vendor = MacVendorLookup.getVendor(mac);
                                 String time = dtf.format(LocalDateTime.now());
                                 
