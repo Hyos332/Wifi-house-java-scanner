@@ -31,26 +31,42 @@ public class WebServer {
     static class StaticHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-            String root = "web";
+            // Serve from the built React app
+            String root = "frontend/dist";
             String path = t.getRequestURI().getPath();
-            if (path.equals("/")) {
-                path = "/index.html";
-            }
 
             File file = new File(root + path).getCanonicalFile();
 
+            // SPA Routing: If file doesn't exist, serve index.html (unless it's an API call
+            // or static asset)
             if (!file.isFile()) {
-                String response = "404 (Not Found)\n";
-                t.sendResponseHeaders(404, response.length());
-                OutputStream os = t.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
-            } else {
-                t.sendResponseHeaders(200, file.length());
-                OutputStream os = t.getResponseBody();
-                Files.copy(file.toPath(), os);
-                os.close();
+                // If it looks like a file extension, 404 it
+                if (path.contains(".")) {
+                    String response = "404 (Not Found)\n";
+                    t.sendResponseHeaders(404, response.length());
+                    OutputStream os = t.getResponseBody();
+                    os.write(response.getBytes());
+                    os.close();
+                    return;
+                }
+                // Otherwise fallback to index.html for React Router (if we used it)
+                file = new File(root + "/index.html").getCanonicalFile();
             }
+
+            // Mime types (basic)
+            if (path.endsWith(".css"))
+                t.getResponseHeaders().set("Content-Type", "text/css");
+            else if (path.endsWith(".js"))
+                t.getResponseHeaders().set("Content-Type", "application/javascript");
+            else if (path.endsWith(".html"))
+                t.getResponseHeaders().set("Content-Type", "text/html");
+            else if (path.endsWith(".svg"))
+                t.getResponseHeaders().set("Content-Type", "image/svg+xml");
+
+            t.sendResponseHeaders(200, file.length());
+            OutputStream os = t.getResponseBody();
+            Files.copy(file.toPath(), os);
+            os.close();
         }
     }
 
