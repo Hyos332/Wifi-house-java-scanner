@@ -5,8 +5,8 @@ services:
     build: .
     container_name: wifi-sentinel
     # IMPORTANTE: Usamos 'host' para que el contenedor vea la red real de tu casa
-    network_mode: "host" 
+    network_mode: "host"
     restart: unless-stopped
-    # Opcional: Si quieres pasar variables de entorno en el futuro
-    # environment:
-    #   - DISCORD_WEBHOOK=...
+    # Pasamos la URL como variable de entorno
+    environment:
+      - DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/1441933586080071700/ybwsrxysl9MnTSp2fG2GIwqLFe6midP_HPjuaPDUIF_ev_JQWY7up7aAPZAdIK1_b7Nh

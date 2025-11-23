@@ -5,8 +5,11 @@ import java.nio.charset.StandardCharsets;
 
 public class Notifier {
 
-    // ¡IMPORTANTE! Reemplaza esto con tu Webhook real antes de ejecutar
-    private static final String DISCORD_WEBHOOK_URL = "TU_WEBHOOK_URL_AQUI";
+    // Leemos la URL desde una variable de entorno (más seguro para Docker)
+    // Si no existe, usa un valor por defecto (o lanza error)
+    private static final String DISCORD_WEBHOOK_URL = System.getenv("DISCORD_WEBHOOK_URL") != null 
+            ? System.getenv("DISCORD_WEBHOOK_URL") 
+            : "TU_WEBHOOK_URL_AQUI";
 
     public static void sendDiscord(String message) {
         try {
