@@ -76,10 +76,3 @@ java Main
 🕒 Hora: 2025/11/23 00:58:00
 ```
 
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Si tienes ideas para mejorar el escáner o añadir nuevas integraciones (Telegram, Slack, Email), ¡abre un Pull Request!
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT.
