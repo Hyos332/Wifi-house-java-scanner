@@ -1,5 +1,5 @@
-# Usamos una imagen base ligera de Java
-FROM openjdk:17-jdk-slim
+# Usamos una imagen base ligera de Java (Eclipse Temurin es la recomendada ahora)
+FROM eclipse-temurin:17-jdk-jammy
 
 # Instalamos herramientas de red necesarias (ping y arp)
 RUN apt-get update && apt-get install -y \
