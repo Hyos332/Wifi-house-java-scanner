@@ -29,7 +29,7 @@ Este sistema escanea tu red local cada 5 segundos y:
 
 El proyecto incluye una interfaz web moderna para ver el estado de tu red.
 
-- **URL**: `http://localhost` (Puerto 80)
+- **URL**: `http://localhost:3000`
 - **Características**:
   - Lista de dispositivos en tiempo real.
   - Indicadores de estado (Online/Offline).
@@ -64,7 +64,7 @@ El sistema se divide en dos microservicios:
 ### 2. Frontend (React)
 - Consume la API del backend.
 - Muestra los dispositivos en una interfaz amigable.
-- Servido por Nginx en el puerto `80`.
+- Servido por Nginx en el puerto `3000`.
 
 ---
 
