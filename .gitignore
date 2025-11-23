@@ -1,0 +1,12 @@
+# Archivos de entorno (SECRETOS)
+.env
+
+# Archivos compilados de Java
+*.class
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
