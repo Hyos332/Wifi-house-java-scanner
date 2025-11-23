@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  network-sentinel:
+    build: .
+    container_name: wifi-sentinel
+    # IMPORTANTE: Usamos 'host' para que el contenedor vea la red real de tu casa
+    network_mode: "host" 
+    restart: unless-stopped
+    # Opcional: Si quieres pasar variables de entorno en el futuro
+    # environment:
+    #   - DISCORD_WEBHOOK=...

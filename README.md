@@ -32,7 +32,28 @@ Un sistema de vigilancia de red ligero y eficiente escrito en Java. Escanea tu r
 3. **Ajustar Subred (Opcional):**
    - Si tu red no es `192.168.1.x`, abre `WifiScanner.java` y cambia la variable `subnet`.
 
-## 📦 Compilación y Ejecución
+## � Despliegue con Docker (Recomendado)
+
+Para mantener el vigilante activo 24/7, puedes usar Docker.
+
+1. **Construir y Ejecutar:**
+   ```bash
+   docker-compose up -d --build
+   ```
+
+2. **Ver logs:**
+   ```bash
+   docker-compose logs -f
+   ```
+
+3. **Detener:**
+   ```bash
+   docker-compose down
+   ```
+
+**Nota:** El contenedor usa `network_mode: "host"` para poder escanear la red local de tu router.
+
+## 📦 Compilación Manual
 
 ```bash
 # Compilar
